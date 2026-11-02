@@ -1,0 +1,6 @@
+{
+  "name": "Security gate (strange_security)",
+  "description": "Semgrep, Trivy filesystem and Gitleaks history scans from strangebasisdevs/strange_security, pinned by commit SHA",
+  "iconName": "shield",
+  "categories": ["Security"]
+}

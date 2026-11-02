@@ -1,0 +1,50 @@
+# Security gate: thin caller of the strange_security reusable workflows.
+#
+# What to change:
+# - Keep the file name (.github/workflows/security_gate.yml) and the job names:
+#   the required check names are "Semgrep / Semgrep scan",
+#   "Trivy / Trivy filesystem scan" and "Gitleaks / Gitleaks history scan", and
+#   they come from the job names below.
+# - GitHub replaces $default-branch with the repository's default branch when
+#   it creates the workflow from this template. The gate must run on pushes to
+#   the default branch, because a repository joins the required checks only
+#   after the gate has run green there.
+# - Dependabot moves the pin afterwards when .github/dependabot.yml has a
+#   github-actions entry (see baseline/templates/dependabot.yml in
+#   strangebasisdevs/strange_security).
+# - Never reference @main or a tag, and never a short SHA: every reference is a
+#   full 40-hex commit SHA followed by a "# vX.Y.Z" comment.
+# - A private repository without code scanning adds the commented-out
+#   "with: upload-sarif: false" lines of each job below, because SARIF cannot be
+#   uploaded there. The scans still run and still fail the pull request.
+name: Security gate
+
+on:
+  pull_request:
+  push:
+    branches:
+      - $default-branch
+
+permissions:
+  actions: read
+  contents: read
+  security-events: write
+
+jobs:
+  semgrep:
+    name: Semgrep
+    uses: strangebasisdevs/strange_security/.github/workflows/semgrep.yml@b3a6732ecbe1796fb2e7eaeedb228c705962db44 # v1.2.1
+    # with:
+    #   upload-sarif: false
+
+  trivy:
+    name: Trivy
+    uses: strangebasisdevs/strange_security/.github/workflows/trivy.yml@b3a6732ecbe1796fb2e7eaeedb228c705962db44 # v1.2.1
+    # with:
+    #   upload-sarif: false
+
+  gitleaks:
+    name: Gitleaks
+    uses: strangebasisdevs/strange_security/.github/workflows/gitleaks.yml@b3a6732ecbe1796fb2e7eaeedb228c705962db44 # v1.2.1
+    # with:
+    #   upload-sarif: false

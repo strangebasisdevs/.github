@@ -1,0 +1,1 @@
+The `strangebasisdevs` organization holds the projects behind the strangebasis streams and related work. Every repository in it, public or private, is held to one security baseline, which is published as a generic control catalogue in [the organization security baseline](https://github.com/strangebasisdevs/strange_security/blob/main/docs/ORG_BASELINE.md).
